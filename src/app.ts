@@ -126,14 +126,14 @@ fs.readFile(sample, 'utf8', async (err, fileContent) => {
 
     var tags: { [id: string]: Model<any, any> } = {};
     for (var transactionObjectRaw of transactionHistory) {
-        if (!isNaN(transactionObjectRaw['Amount'])) {
+        if (!isNaN(transactionObjectRaw['Amount']) && transactionObjectRaw['Amount'] != 0) {
             const [day, month, year] = transactionObjectRaw['Date'].split('/');
             const date = new Date(+year, +month - 1, +day);
             const transaction = await Transaction.create({
                 amount: transactionObjectRaw['Amount'],
                 date: date,
                 payee: transactionObjectRaw['Name'],
-                note: transactionObjectRaw['Details'],
+                note: transactionObjectRaw['Notes'],
                 userId: 'e43f0893-0bb7-4bcf-827f-c77f2b5f723f'
             });
 
